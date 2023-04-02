@@ -1,49 +1,48 @@
-mod get_content;
+use std::fs;
 
-fn find_word_line(word: &str, lines: &Vec<String>) -> (String, u32) {
-    let mut index: u32 = 0;
-    let mut result: String = "".to_string(); 
-    for item in lines {
-        if item.contains(word) {
-            result.push_str(item);
-            break;
-            
-        }
-        index += 1;
-    };
+mod get;
 
-    (result, index)
-}
+use get::get_content;
+use get::get_words;
 
 fn main() {
-    let content = get_content::get_content();
-    let words = content.0.clone();
-    let mut lines = content.1.clone();
-
+    let lines = get_content::get_content();
     let mut result = String::new();
     
-    for item in words {
-        let item_word_line = find_word_line(&item, &lines);
-
+    for item in &lines {
         match item {
-            x if x == String::from("#") => {
-                if item_word_line.1 > 0 && item_word_line.1 < lines.len().try_into().unwrap() {
-                    lines.remove(item_word_line.1 as usize - 1);
-                }
+            x if x.starts_with("#") => {
                 result.push_str("<h1> ");
-                result.push_str(&item_word_line.0.clone().as_str().replace("# ", "").as_ref());
+                result.push_str(&item.clone().as_str().replace("# ", "").as_ref());
                 result.push_str(" </h1> ");
-            }
+                result.push('\n');
+            },
+
+            x if x.contains("**") => {
+                let words = get_words::get_words(item.to_owned());
+                let mut buffer: u8 = 0;
+
+                for word in words {
+                    if word.contains( "**") && buffer == 0 {
+                        buffer = 1;
+                        result.push_str("<strong>")
+                    } else if word.contains( "**") && buffer == 1 {
+                        buffer = 0;
+                        result.push_str("</strong>")
+                    } else {
+                        result.push_str(&word);
+                    }
+                }
+            },
 
             _ => {
-                result.push_str(&item);
-                if item_word_line.1 > 0 && item_word_line.1 < lines.len().try_into().unwrap() {
-                    println!("{}", lines[item_word_line.1 as usize - 1]);
-                    lines.remove(item_word_line.1 as usize - 1);
-                }
-            }
+                result.push_str(&item.clone());
+                result.push('\n');
+            }      
         }
+        
     }
 
     println!("{:#?}", result);
+    fs::write("./output.html", result).expect("Couldn't write file");
 }
