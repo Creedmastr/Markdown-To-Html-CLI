@@ -6,49 +6,36 @@ use std::fs;
 mod contains;
 mod get;
 mod startswith;
+mod is;
 
 use get::get_content;
 use get::get_words;
 
 use crate::contains::contains_ch;
 
-fn is_italic(vec: Vec<String>) -> (bool, String) {
-    let mut index: u32 = 0;
-    for item in vec {
-        if item.starts_with("*") && item.ends_with("*") && !item.ends_with("**") && !item.starts_with("**") {
-            return (true, item);
-        }
-
-        index += 1;
-    }
-
-    return (false, "None".to_string());
-}
-
 fn main() {
     let lines = get_content::get_content();
     let mut result = String::new();
-    let mut li = String::new();
 
     for item in &lines {
         let words = get_words::get_words(item.to_owned());
-        let words_is_italic = is_italic(words.clone());
-        println!("{:#?}", words);
+        let words_is_italic = is::is_italic(words.clone());
+        let word_is_underligned = is::is_underligned(words.clone());
 
         match item {
-            x if x.starts_with("#") => {
+            x if x.starts_with("# ") => {
                 result.push_str(startswith::smt_print(item, " <h1> ").as_str());
             }
 
-            x if x.starts_with("##") => {
+            x if x.starts_with("## ") => {
                 result.push_str(startswith::smt_print(item, " <h2> ").as_str());
             }
 
-            x if x.starts_with("###") => {
+            x if x.starts_with("### ") => {
                 result.push_str(startswith::smt_print(item, " <h3> ").as_str());
             }
 
-            x if x.starts_with("####") => {
+            x if x.starts_with("#### ") => {
                 result.push_str(startswith::smt_print(item, " <h4> ").as_str());
             }
 
@@ -57,11 +44,25 @@ fn main() {
             }
 
             x if words_is_italic.0 => {
+                let mut li = String::new();
+
                 li.push_str("<li>");
                 li.push_str(words_is_italic.1.replace("*", "").as_str());
                 li.push_str("</li>");
                 li.push('\n');
+
                 result.push_str(li.as_str());
+            }
+
+            x if word_is_underligned.0 => {
+                let mut u = String::new();
+
+                u.push_str("<u>");
+                u.push_str(word_is_underligned.1.replace("__", "").as_str());
+                u.push_str("</u>");
+                u.push('\n');
+
+                result.push_str(u.as_str());
             }
 
             _ => {
