@@ -72,6 +72,7 @@ fn main() {
         }
     }
 
+    // TODO: Separate it into a different file, and make the output.html file a normal html file (with a template etc.)
     println!("{:#?}", result);
     fs::write("./output.html", result).expect("Couldn't write file");
 }
