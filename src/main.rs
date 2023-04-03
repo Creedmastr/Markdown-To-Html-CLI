@@ -7,6 +7,7 @@ mod contains;
 mod get;
 mod startswith;
 mod is;
+mod html;
 
 use get::get_content;
 use get::get_words;
@@ -73,6 +74,7 @@ fn main() {
     }
 
     // TODO: Separate it into a different file, and make the output.html file a normal html file (with a template etc.)
-    println!("{:#?}", result);
+    result = html::to_valid_html(result.clone());
+
     fs::write("./output.html", result).expect("Couldn't write file");
 }
