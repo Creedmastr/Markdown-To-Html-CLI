@@ -7,7 +7,7 @@ mod contains;
 mod get;
 mod html;
 mod is;
-mod startswith;
+mod print_smt;
 
 use get::get_content;
 use get::get_words;
@@ -21,12 +21,14 @@ fn main() {
 
     for item in &lines {
         let words = get_words::get_words(item.to_owned());
+        
         // Just some conditions
         let words_is_italic = is::is_italic(words.clone());
         let word_is_underligned = is::is_underligned(words.clone());
 
         // Ignore the commentaries
         if !item.starts_with("//") {
+            // Checks item
             match item {
                 x if x.starts_with("+/ modifier(") && x.ends_with(")") => {
                     if x.contains("is_html_valid=false") || x.contains("is_html_valid = false") {
@@ -35,23 +37,23 @@ fn main() {
                 }
 
                 x if x.starts_with("# ") => {
-                    result.push_str(&startswith::print_smt(item, "<h1>").as_str());
+                    result.push_str(&print_smt::print_smt(item, "<h1>").as_str());
                 }
 
                 x if x.starts_with("## ") => {
-                    result.push_str(&startswith::print_smt(item, "<h2>").as_str());
+                    result.push_str(&print_smt::print_smt(item, "<h2>").as_str());
                 }
 
                 x if x.starts_with("### ") => {
-                    result.push_str(&startswith::print_smt(item, "<h3>").as_str());
+                    result.push_str(&print_smt::print_smt(item, "<h3>").as_str());
                 }
 
                 x if x.starts_with("#### ") => {
-                    result.push_str(&startswith::print_smt(item, "<h4>").as_str());
+                    result.push_str(&print_smt::print_smt(item, "<h4>").as_str());
                 }
 
                 x if x.starts_with("* ") || x.starts_with("+ ") || x.starts_with("- ") => {
-                    result.push_str(&startswith::print_smt(item, "<li>").as_str());
+                    result.push_str(&print_smt::print_smt(item, "<li>").as_str());
                 }
 
                 x if x.contains("**") => {
@@ -61,11 +63,11 @@ fn main() {
                 }
 
                 x if words_is_italic.0 => {
-                    result.push_str(&startswith::print_smt(item, "<i>"));
+                    result.push_str(&print_smt::print_smt(item, "<i>"));
                 }
 
                 x if word_is_underligned.0 => {
-                    result.push_str(&startswith::print_smt(item, "<u>"));
+                    result.push_str(&print_smt::print_smt(item, "<u>"));
                 }
 
                 _ => {
