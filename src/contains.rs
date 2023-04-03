@@ -1,6 +1,11 @@
-use crate::get::get_words::{get_words, self};
+use crate::get::get_words::{self, get_words};
 
-pub fn contains_ch(ch: &str, to_push_first: &str, to_push_second: &str, words: Vec<String>) -> String {
+pub fn contains_ch(
+    ch: &str,
+    to_push_first: &str,
+    to_push_second: &str,
+    words: Vec<String>,
+) -> String {
     let mut result = String::new();
     let mut buffer: u8 = 0;
 

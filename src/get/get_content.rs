@@ -1,9 +1,10 @@
-use std::{io::{BufReader, BufRead}, fs::File};
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 // Get the content of a file
-pub fn get_content() -> Vec<String> {
-    let args: Vec<String> = std::env::args().collect();
-    let file = File::open(&args[1]).unwrap();
+pub fn get_content(file: File) -> Vec<String> {
     let reader = BufReader::new(file);
 
     let mut lines: Vec<String> = Vec::new();

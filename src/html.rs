@@ -1,5 +1,6 @@
 pub fn to_valid_html(previous_result: String) -> String {
-    let mut result: String = String::from("
+    let mut result: String = String::from(
+        "
         <!DOCTYPE html>
         <html>
         <head>
@@ -9,14 +10,17 @@ pub fn to_valid_html(previous_result: String) -> String {
             <meta name='viewport' content='width=device-width, initial-scale=1'>
         </head>
         <body> \n
-    ");
-    
+    ",
+    );
+
     result.push_str(&previous_result);
 
-    result.push_str("
+    result.push_str(
+        "
         </body>
         </html>
-    ");
+    ",
+    );
 
     result
 }
