@@ -24,6 +24,7 @@ fn main() {
         let words_is_italic = is::is_italic(words.clone());
         let word_is_underligned = is::is_underligned(words.clone());
 
+        // Ignore the commentaries
         if !item.starts_with("//") {
             match item {
                 x if x.starts_with("+/ modifier(") && x.ends_with(")") => {

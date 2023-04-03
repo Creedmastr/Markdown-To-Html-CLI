@@ -1,5 +1,6 @@
 use std::{io::{BufReader, BufRead}, fs::File};
 
+// Get the content of a file
 pub fn get_content() -> Vec<String> {
     let args: Vec<String> = std::env::args().collect();
     let file = File::open(&args[1]).unwrap();
