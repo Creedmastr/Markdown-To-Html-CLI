@@ -88,5 +88,19 @@ fn main() {
         result = html::to_valid_html(result.clone());
     }
 
-    fs::write("./output.html", result).expect("Couldn't write file");
+    match args.len() {
+        x if x >= 3 => {
+            if args[2].ends_with(".html") {
+                fs::write(&args[2], result).expect("Couldn't write file");
+            } else {
+                let mut arg1 = args[2].clone();
+                arg1.push_str(".html");
+                fs::write(arg1, result).expect("Couldn't write file");
+            }
+        }
+
+        _ => {
+            fs::write("./output.html", result).expect("Couldn't write file");
+        }
+    }
 }
