@@ -15,12 +15,13 @@ use get::get_words;
 use crate::contains::contains_ch;
 
 fn main() {
-    let lines = get_content::get_content();
-    let mut result = String::new();
-    let mut is_html_valid: bool = true;
+    let lines = get_content::get_content(); // Get the content of the file
+    let mut result = String::new(); // Init the 'result' variable
+    let mut is_html_valid: bool = true; // One modifier
 
     for item in &lines {
         let words = get_words::get_words(item.to_owned());
+        // Just some conditions
         let words_is_italic = is::is_italic(words.clone());
         let word_is_underligned = is::is_underligned(words.clone());
 
@@ -75,6 +76,7 @@ fn main() {
         }
     }
 
+    // Check
     if is_html_valid == true {
         result = html::to_valid_html(result.clone());
     }
