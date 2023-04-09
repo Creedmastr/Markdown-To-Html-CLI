@@ -1,2 +1,2 @@
-pub(crate) mod get_content;
-pub(crate) mod get_words;
+pub mod get_content;
+pub mod get_words;
