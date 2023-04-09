@@ -2,6 +2,8 @@
 name = "mdtohtml"
 version = "1.0.0"
 edition = "2021"
+description = "A simple markdown to html renderer (with a couple of missing features)"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
